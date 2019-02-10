@@ -44,8 +44,23 @@ void AFortuneFrenzyPlayer::UpdateMovement()
 		return;
 	}
 
+	float SpeedModifierForce = 0.0f;
+	float SlowModifierForce = 0.0f;
+
+	if (StatChanges != nullptr)
+	{
+		SpeedModifierForce = StatChanges->GetModifierAmount(EModifierType::Speed);
+		SlowModifierForce = StatChanges->GetModifierAmount(EModifierType::Slowness);
+	}
+
+	float ForceMagnitude = BaseMovementForce + (SpeedModifierForce - SlowModifierForce);
+	if (ForceMagnitude <= 0.0f)
+	{
+		ForceMagnitude = 0.0f;
+	}
+
 	FVector MovementDirection = FVector(MoveAxisVertical, MoveAxisHorizontal, 0.0f);
-	Mesh->AddForce(MovementDirection * BaseMovementForce);
+	Mesh->AddForce(MovementDirection * ForceMagnitude);
 }
 
 
