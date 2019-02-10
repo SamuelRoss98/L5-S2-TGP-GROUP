@@ -4,6 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+
+#include "StatModifier.h"
+#include "Powerup.h"
+
 #include "StatModifierComponent.generated.h"
 
 
@@ -16,14 +20,43 @@ public:
 	// Sets default values for this component's properties
 	UStatModifierComponent();
 
+	// Called every frame
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	// Applies a power-up.
+	UFUNCTION(BlueprintCallable)
+	void ApplyPowerup(const FPowerup& PowerupToApply);
+
+	// Returns true if the given modifier is active.
+	UFUNCTION(BlueprintPure)
+	bool IsModifierActive(EModifierType Type) const;
+
+	// Returns the current amount of the given modifier.
+	UFUNCTION(BlueprintPure)
+	float GetModifierAmount(EModifierType Type) const;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	void ApplyModiferChange(bool& bIsToChangeActive, FStatModifier& ToChange, const FStatModifier& Other);
+	void TickModifierTimer(bool& bIsModifierActive, FStatModifier& Modifier, float DeltaTime);
 
-		
+private:
+	FStatModifier SpeedModifier;
+	FStatModifier SlownessModifier;
+	FStatModifier StunModifier;
+	FStatModifier FrictionModifier;
+	FStatModifier ForcePullModifier;
+	FStatModifier ForcePushModifier;
+	FStatModifier VisibilityModifier;
+
+	bool bSpeedModifierActive = false;
+	bool bSlownessModifierActive = false;
+	bool bStunModifierActive = false;
+	bool bFrictionModifierActive = false;
+	bool bForcePullModifierActive = false;
+	bool bForcePushModifierActive = false;
+	bool bVisibilityModifierActive = false;
 	
 };
