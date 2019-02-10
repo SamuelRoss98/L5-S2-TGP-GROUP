@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+
+#include "Powerup.h"
+
 #include "FortuneFrenzyPlayer.generated.h"
 
 class UStaticMeshComponent;
@@ -25,6 +28,15 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	// Applies a power-up.
+	void ApplyPowerup(const FPowerup& Powerup);
+
+	// Called when powerup input action is pressed.
+	virtual void UsePowerupPressed(bool bPrimary);
+
+	// Called when powerup input action is released.
+	virtual void UsePowerupReleased(bool bPrimary);
 
 	// Sets the horizontal look input.
 	void SetLookAxisHorizontal(float Value);

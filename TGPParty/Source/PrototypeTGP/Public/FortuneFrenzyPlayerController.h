@@ -24,6 +24,18 @@ protected:
 	virtual void SetupInputComponent() override;
 
 private:
+	// Called when action for using primary powerup is pressed.
+	void UsePrimaryPowerupPressed();
+
+	// Called when action for using secondary powerup is pressed.
+	void UseSecondaryPowerupPressed();
+
+	// Called when action for using primary powerup is released.
+	void UsePrimaryPowerupReleased();
+
+	// Called when action for using secondary powerup is released.
+	void UseSecondaryPowerupReleased();
+
 	// Sets the controlled players horizontal look.
 	void SetLookAxisHorizontal(float Value);
 

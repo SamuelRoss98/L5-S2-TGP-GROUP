@@ -56,13 +56,13 @@ void AFortuneFrenzyPlayer::UpdateLook()
 
 	if (LookAxisHorizontal != 0.0f || LookAxisVertical != 0.0f)
 	{
-		LookDirection = FVector(LookAxisHorizontal, LookAxisVertical, 0.0f);
+		LookDirection = FVector(-LookAxisVertical, LookAxisHorizontal, 0.0f);
 	}
 	else
 	{
 		if (MoveAxisHorizontal != 0.0f || MoveAxisVertical != 0.0f)
 		{
-			LookDirection = FVector(MoveAxisHorizontal, -MoveAxisVertical, 0.0f);
+			LookDirection = FVector(MoveAxisVertical, MoveAxisHorizontal, 0.0f);
 		}
 	}
 	SetActorRotation(LookDirection.Rotation());
@@ -73,6 +73,54 @@ void AFortuneFrenzyPlayer::UpdateLook()
 void AFortuneFrenzyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+}
+
+void AFortuneFrenzyPlayer::ApplyPowerup(const FPowerup & Powerup)
+{
+	if (StatChanges == nullptr)
+	{
+		return;
+	}
+
+	StatChanges->ApplyPowerup(Powerup);
+}
+
+
+void AFortuneFrenzyPlayer::UsePowerupPressed(bool bPrimary)
+{
+	if (PowerupActivator == nullptr)
+	{
+		return;
+	}
+
+	if (bPrimary)
+	{
+		PowerupActivator->UsePrimaryPowerupPressed();
+	}
+
+	else
+	{
+		PowerupActivator->UseSecondaryPowerupPressed();
+	}
+}
+
+
+void AFortuneFrenzyPlayer::UsePowerupReleased(bool bPrimary)
+{
+	if (PowerupActivator == nullptr)
+	{
+		return;
+	}
+
+	if (bPrimary)
+	{
+		PowerupActivator->UsePrimaryPowerupReleased();
+	}
+
+	else
+	{
+		PowerupActivator->UseSecondaryPowerupReleased();
+	}
 }
 
 

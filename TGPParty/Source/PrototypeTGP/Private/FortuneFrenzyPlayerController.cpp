@@ -23,10 +23,17 @@ void AFortuneFrenzyPlayerController::SetupInputComponent()
 
 	if (InputComponent != nullptr)
 	{
+		// Axis bindings.
 		InputComponent->BindAxis("LookHorizontal", this, &AFortuneFrenzyPlayerController::SetLookAxisHorizontal);
 		InputComponent->BindAxis("LookVertical", this, &AFortuneFrenzyPlayerController::SetLookAxisVertical);
 		InputComponent->BindAxis("MoveHorizontal", this, &AFortuneFrenzyPlayerController::SetMoveAxisHorizontal);
 		InputComponent->BindAxis("MoveVertical", this, &AFortuneFrenzyPlayerController::SetMoveAxisVertical);
+
+		// Action bindings.
+		InputComponent->BindAction("UsePrimaryPowerup", IE_Pressed, this, &AFortuneFrenzyPlayerController::UsePrimaryPowerupPressed);
+		InputComponent->BindAction("UseSecondaryPowerup", IE_Pressed, this, &AFortuneFrenzyPlayerController::UseSecondaryPowerupPressed);
+		InputComponent->BindAction("UsePrimaryPowerup", IE_Released, this, &AFortuneFrenzyPlayerController::UsePrimaryPowerupReleased);
+		InputComponent->BindAction("UseSecondaryPowerup", IE_Released, this, &AFortuneFrenzyPlayerController::UseSecondaryPowerupReleased);
 
 		//InputComponent->BindAction("UsePowerupPrimary", IE_Pressed, this, &APowerupPlayerController::UsePrimaryPowerupPressed);
 		//InputComponent->BindAxis("LookVertical", this, &AFortuneFrenzyPlayer::SetLookAxisVertical);*/
@@ -35,6 +42,55 @@ void AFortuneFrenzyPlayerController::SetupInputComponent()
 	{
 		UE_LOG(LogTemp, Error, TEXT("AFortuneFrenzyPlayerController::SetupInputComponent - InputComponent is nullptr"))
 	}
+}
+
+
+void AFortuneFrenzyPlayerController::UsePrimaryPowerupPressed()
+{
+	if (ControlledPlayer == nullptr)
+	{
+		return;
+	}
+
+	else
+	{
+		ControlledPlayer->UsePowerupPressed(true);
+	}
+}
+
+
+void AFortuneFrenzyPlayerController::UseSecondaryPowerupPressed()
+{
+	if (ControlledPlayer == nullptr)
+	{
+		return;
+	}
+	else
+	{
+		ControlledPlayer->UsePowerupPressed(false);
+	}
+}
+
+
+void AFortuneFrenzyPlayerController::UsePrimaryPowerupReleased()
+{
+	if (ControlledPlayer == nullptr)
+	{
+		return;
+	}
+
+	ControlledPlayer->UsePowerupReleased(true);
+}
+
+
+void AFortuneFrenzyPlayerController::UseSecondaryPowerupReleased()
+{
+	if (ControlledPlayer == nullptr)
+	{
+		return;
+	}
+
+	ControlledPlayer->UsePowerupReleased(false);
 }
 
 
