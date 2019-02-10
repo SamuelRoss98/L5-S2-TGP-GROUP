@@ -3,6 +3,8 @@
 #include "FortuneFrenzyPlayer.h"
 
 #include "Components/StaticMeshComponent.h"
+#include "StatModifierComponent.h"
+#include "PowerupActivatorComponent.h"
 
 // Sets default values
 AFortuneFrenzyPlayer::AFortuneFrenzyPlayer()
@@ -11,6 +13,8 @@ AFortuneFrenzyPlayer::AFortuneFrenzyPlayer()
 	PrimaryActorTick.bCanEverTick = true;
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
+	StatChanges = CreateDefaultSubobject<UStatModifierComponent>("StatModifier");
+	PowerupActivator = CreateDefaultSubobject<UPowerupActivatorComponent>("PowerupActivator");
 
 	RootComponent = Mesh;
 }

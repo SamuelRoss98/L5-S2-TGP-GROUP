@@ -8,6 +8,8 @@
 
 class UStaticMeshComponent;
 class UCapsuleComponent;
+class UStatModifierComponent;
+class UPowerupActivatorComponent;
 
 UCLASS()
 class PROTOTYPETGP_API AFortuneFrenzyPlayer : public APawn
@@ -47,6 +49,14 @@ protected:
 	// Player mesh.
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* Mesh = nullptr;
+
+	// Power-up activator.
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPowerupActivatorComponent* PowerupActivator = nullptr;
+
+	// Stat modifier.
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UStatModifierComponent* StatChanges = nullptr;
 
 	// Base movement force.
 	UPROPERTY(EditDefaultsOnly)
