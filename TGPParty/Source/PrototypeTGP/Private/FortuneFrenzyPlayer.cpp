@@ -39,19 +39,19 @@ void AFortuneFrenzyPlayer::Tick(float DeltaTime)
 
 void AFortuneFrenzyPlayer::UpdateMovement()
 {
-	if (Mesh == nullptr)
+	if (Mesh == nullptr || StatChanges == nullptr)
 	{
 		return;
 	}
 
-	float SpeedModifierForce = 0.0f;
-	float SlowModifierForce = 0.0f;
-
-	if (StatChanges != nullptr)
+	// Can't move while stunned.
+	if (StatChanges->IsModifierActive(EModifierType::Stun))
 	{
-		SpeedModifierForce = StatChanges->GetModifierAmount(EModifierType::Speed);
-		SlowModifierForce = StatChanges->GetModifierAmount(EModifierType::Slowness);
+		return;
 	}
+
+	float SpeedModifierForce = StatChanges->GetModifierAmount(EModifierType::Speed);
+	float SlowModifierForce = StatChanges->GetModifierAmount(EModifierType::Slowness);
 
 	float ForceMagnitude = BaseMovementForce + (SpeedModifierForce - SlowModifierForce);
 	if (ForceMagnitude <= 0.0f)
@@ -66,6 +66,17 @@ void AFortuneFrenzyPlayer::UpdateMovement()
 
 void AFortuneFrenzyPlayer::UpdateLook()
 {
+	if (StatChanges == nullptr)
+	{
+		return;
+	}
+
+	// Can't move while stunned.
+	if (StatChanges->IsModifierActive(EModifierType::Stun))
+	{
+		return;
+	}
+
 	FVector MovementDirection = FVector(MoveAxisVertical, MoveAxisHorizontal, 0.0f);
 	FVector LookDirection = GetActorForwardVector();
 
