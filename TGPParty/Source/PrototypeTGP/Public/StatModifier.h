@@ -17,7 +17,6 @@ enum class EModifierType : uint8
 	Speed		UMETA(DisplayName = "Speed"),
 	Slowness	UMETA(DisplayName = "Slowness"),
 	Stun		UMETA(DisplayName = "Stun"),
-	Friction	UMETA(DisplayName = "Friction"),
 	ForcePush	UMETA(DisplayName = "ForcePush"),
 	ForcePull	UMETA(DisplayName = "ForcePull"),
 	Visibility	UMETA(DisplayName = "Visibility")

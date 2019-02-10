@@ -39,9 +39,6 @@ public:
 	FStatModifier StunModifier;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FStatModifier FrictionModifier;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FStatModifier ForcePullModifier;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

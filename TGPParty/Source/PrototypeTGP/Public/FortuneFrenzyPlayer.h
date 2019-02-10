@@ -50,6 +50,14 @@ public:
 	// Sets the vertical move input.
 	void SetMoveAxisVertical(float Value);
 
+	// Invoked when the players aims something.
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnStartAiming();
+
+	// Invoked when the player finishes aiming.
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnStopAiming();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

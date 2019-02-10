@@ -46,7 +46,6 @@ private:
 	FStatModifier SpeedModifier;
 	FStatModifier SlownessModifier;
 	FStatModifier StunModifier;
-	FStatModifier FrictionModifier;
 	FStatModifier ForcePullModifier;
 	FStatModifier ForcePushModifier;
 	FStatModifier VisibilityModifier;
@@ -54,7 +53,6 @@ private:
 	bool bSpeedModifierActive = false;
 	bool bSlownessModifierActive = false;
 	bool bStunModifierActive = false;
-	bool bFrictionModifierActive = false;
 	bool bForcePullModifierActive = false;
 	bool bForcePushModifierActive = false;
 	bool bVisibilityModifierActive = false;

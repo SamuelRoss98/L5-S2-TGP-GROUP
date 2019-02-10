@@ -31,7 +31,6 @@ void UStatModifierComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	TickModifierTimer(bSpeedModifierActive, SpeedModifier, DeltaTime);
 	TickModifierTimer(bSlownessModifierActive, SlownessModifier, DeltaTime);
 	TickModifierTimer(bStunModifierActive, StunModifier, DeltaTime);
-	TickModifierTimer(bFrictionModifierActive, FrictionModifier, DeltaTime);
 	TickModifierTimer(bForcePullModifierActive, ForcePullModifier, DeltaTime);
 	TickModifierTimer(bForcePushModifierActive, ForcePushModifier, DeltaTime);
 	TickModifierTimer(bVisibilityModifierActive, VisibilityModifier, DeltaTime);
@@ -46,7 +45,6 @@ void UStatModifierComponent::ApplyPowerup(const FPowerup & PowerupToApply)
 	ApplyModiferChange(bSpeedModifierActive, SpeedModifier, PowerupToApply.SpeedModifier);
 	ApplyModiferChange(bSlownessModifierActive, SlownessModifier, PowerupToApply.SlownessModifier);
 	ApplyModiferChange(bStunModifierActive, StunModifier, PowerupToApply.StunModifier);
-	ApplyModiferChange(bFrictionModifierActive, FrictionModifier, PowerupToApply.FrictionModifier);
 	ApplyModiferChange(bForcePullModifierActive, ForcePullModifier, PowerupToApply.ForcePullModifier);
 	ApplyModiferChange(bForcePushModifierActive, ForcePushModifier, PowerupToApply.ForcePushModifier);
 	ApplyModiferChange(bVisibilityModifierActive, VisibilityModifier, PowerupToApply.VisibilityModifier);
@@ -63,8 +61,6 @@ bool UStatModifierComponent::IsModifierActive(EModifierType Type) const
 		return bSlownessModifierActive;
 	case EModifierType::Stun:
 		return bStunModifierActive;
-	case EModifierType::Friction:
-		return bFrictionModifierActive;
 	case EModifierType::ForcePush:
 		return bForcePushModifierActive;
 	case EModifierType::ForcePull:
@@ -88,8 +84,6 @@ float UStatModifierComponent::GetModifierAmount(EModifierType Type) const
 		return SlownessModifier.Amount;
 	case EModifierType::Stun:
 		return StunModifier.Amount;
-	case EModifierType::Friction:
-		return FrictionModifier.Amount;
 	case EModifierType::ForcePush:
 		return ForcePushModifier.Amount;
 	case EModifierType::ForcePull:

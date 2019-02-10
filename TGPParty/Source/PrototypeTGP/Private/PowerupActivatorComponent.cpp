@@ -51,6 +51,8 @@ void UPowerupActivatorComponent::TickComponent(float DeltaTime, ELevelTick TickT
 
 void UPowerupActivatorComponent::UsePrimaryPowerupPressed()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Called"))
+
 	if (bPowerupInUse)
 	{
 		return;
@@ -67,6 +69,7 @@ void UPowerupActivatorComponent::UsePrimaryPowerupReleased()
 	{
 		return;
 	}
+
 
 	CastPowerup(true);
 }
@@ -105,6 +108,13 @@ void UPowerupActivatorComponent::StartUseTimer()
 void UPowerupActivatorComponent::ActivateProjectileMode()
 {
 	bProjectileMode = true;
+
+	AFortuneFrenzyPlayer* Owner = Cast<AFortuneFrenzyPlayer>(GetOwner());
+	if (Owner == nullptr)
+	{
+		return;
+	}
+	Owner->OnStartAiming();
 }
 
 
@@ -161,4 +171,11 @@ void UPowerupActivatorComponent::SelfCast(bool bPrimary)
 void UPowerupActivatorComponent::ProjectileCast(bool bPrimary)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Power-up projectile cast."))
+
+	AFortuneFrenzyPlayer* Owner = Cast<AFortuneFrenzyPlayer>(GetOwner());
+	if (Owner == nullptr)
+	{
+		return;
+	}
+	Owner->OnStopAiming();
 }
