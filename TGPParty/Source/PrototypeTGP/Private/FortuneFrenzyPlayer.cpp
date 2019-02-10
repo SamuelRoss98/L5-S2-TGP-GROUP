@@ -6,7 +6,7 @@
 #include "StatModifierComponent.h"
 #include "PowerupActivatorComponent.h"
 
-// Sets default values
+
 AFortuneFrenzyPlayer::AFortuneFrenzyPlayer()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -19,12 +19,23 @@ AFortuneFrenzyPlayer::AFortuneFrenzyPlayer()
 	RootComponent = Mesh;
 }
 
-// Called when the game starts or when spawned
+
+
 void AFortuneFrenzyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
+
+
+void AFortuneFrenzyPlayer::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	UpdateMovement();
+	UpdateLook();
+}
+
 
 void AFortuneFrenzyPlayer::UpdateMovement()
 {
@@ -33,6 +44,13 @@ void AFortuneFrenzyPlayer::UpdateMovement()
 		return;
 	}
 
+	FVector MovementDirection = FVector(MoveAxisVertical, MoveAxisHorizontal, 0.0f);
+	Mesh->AddForce(MovementDirection * BaseMovementForce);
+}
+
+
+void AFortuneFrenzyPlayer::UpdateLook()
+{
 	FVector MovementDirection = FVector(MoveAxisVertical, MoveAxisHorizontal, 0.0f);
 	FVector LookDirection = GetActorForwardVector();
 
@@ -47,39 +65,34 @@ void AFortuneFrenzyPlayer::UpdateMovement()
 			LookDirection = FVector(MoveAxisHorizontal, -MoveAxisVertical, 0.0f);
 		}
 	}
-
 	SetActorRotation(LookDirection.Rotation());
-	Mesh->AddForce(MovementDirection * BaseMovementForce);
 }
 
-// Called every frame
-void AFortuneFrenzyPlayer::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 
-	UpdateMovement();
-}
 
-// Called to bind functionality to input
 void AFortuneFrenzyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
+
 
 void AFortuneFrenzyPlayer::SetLookAxisHorizontal(float Value)
 {
 	LookAxisHorizontal = Value;
 }
 
+
 void AFortuneFrenzyPlayer::SetLookAxisVertical(float Value)
 {
 	LookAxisVertical = Value;
 }
 
+
 void AFortuneFrenzyPlayer::SetMoveAxisHorizontal(float Value)
 {
 	MoveAxisHorizontal = Value;
 }
+
 
 void AFortuneFrenzyPlayer::SetMoveAxisVertical(float Value)
 {

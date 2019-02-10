@@ -45,6 +45,9 @@ protected:
 	// Moves the player.
 	virtual void UpdateMovement();
 
+	// Updates look direction.
+	virtual void UpdateLook();
+
 protected:
 	// Player mesh.
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
