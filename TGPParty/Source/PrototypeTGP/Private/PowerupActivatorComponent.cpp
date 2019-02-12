@@ -6,6 +6,7 @@
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
 #include "FortuneFrenzyPlayer.h"
+#include "FortuneFrenzyGameMode.h"
 
 UPowerupActivatorComponent::UPowerupActivatorComponent()
 {
@@ -46,13 +47,33 @@ void UPowerupActivatorComponent::TickComponent(float DeltaTime, ELevelTick TickT
 			DrawDebugLine(GetWorld(), GetOwner()->GetActorLocation(), GetOwner()->GetActorLocation() + GetOwner()->GetActorForwardVector() * 1000.0f, FColor::Red, true, 0.1f, 0, 10.0f);
 		}
 	}
+
+	// Timer for the primary power-up selection wheel.
+	if (bHasPrimaryPowerup && !bPrimaryPowerupReadyToUse)
+	{
+		PrimarySelectionTimer += DeltaTime;
+		if (PrimarySelectionTimer >= PowerWheelTimer)
+		{
+			bPrimaryPowerupReadyToUse = true;
+			RefreshUI();
+		}
+	}
+
+	// Timer for the secondary power-up selection wheel.
+	if (bHasSecondaryPowerup && !bSecondaryPowerupReadyToUse)
+	{
+		SecondarySelectionTimer += DeltaTime;
+		if (SecondarySelectionTimer >= PowerWheelTimer)
+		{
+			bSecondaryPowerupReadyToUse = true;
+			RefreshUI();
+		}
+	}
 }
 
 
 void UPowerupActivatorComponent::UsePrimaryPowerupPressed()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Called"))
-
 	if (bPowerupInUse)
 	{
 		return;
@@ -97,6 +118,65 @@ void UPowerupActivatorComponent::UseSecondaryPowerupReleased()
 	CastPowerup(false);
 }
 
+void UPowerupActivatorComponent::PickupPowerup()
+{
+	// If both power-up slots are full, exit.
+	if (bHasPrimaryPowerup && bHasSecondaryPowerup)
+	{
+		return;
+	}
+
+	if (!bHasPrimaryPowerup)
+	{
+		GetRandomPowerup(PrimaryPowerup);
+		bHasPrimaryPowerup = true;
+		bPrimaryPowerupReadyToUse = false;
+		PrimarySelectionTimer = 0.0f;
+		RefreshUI();
+		return;
+	}
+
+	if (!bHasSecondaryPowerup)
+	{
+		GetRandomPowerup(SecondaryPowerup);
+		bHasSecondaryPowerup = true;
+		bSecondaryPowerupReadyToUse = false;
+		SecondarySelectionTimer = 0.0f;
+		RefreshUI();
+		return;
+	}
+}
+
+UMaterial * UPowerupActivatorComponent::GetPrimaryPowerupMaterial() const
+{
+	if (!bHasPrimaryPowerup)
+	{
+		return PowerupNoneMaterial;
+	}
+
+	if (!bPrimaryPowerupReadyToUse)
+	{
+		return PowerupWheelMaterial;
+	}
+
+	return PrimaryPowerup.Icon;
+}
+
+UMaterial * UPowerupActivatorComponent::GetSecondaryPowerupMaterial() const
+{
+	if (!bHasSecondaryPowerup)
+	{
+		return PowerupNoneMaterial;
+	}
+
+	if (!bSecondaryPowerupReadyToUse)
+	{
+		return PowerupWheelMaterial;
+	}
+
+	return SecondaryPowerup.Icon;
+}
+
 
 void UPowerupActivatorComponent::StartUseTimer()
 {
@@ -132,7 +212,21 @@ void UPowerupActivatorComponent::CastPowerup(bool bPrimary)
 
 	bPowerupInUse = false;
 	bProjectileMode = false;
+
+	if (bPrimary)
+	{
+		bHasPrimaryPowerup = false;
+		bPrimaryPowerupReadyToUse = false;
+	}
+	else
+	{
+		bHasSecondaryPowerup = false;
+		bSecondaryPowerupReadyToUse = false;
+	}
+
+	RefreshUI();
 }
+
 
 void UPowerupActivatorComponent::SelfCast(bool bPrimary)
 {
@@ -178,4 +272,29 @@ void UPowerupActivatorComponent::ProjectileCast(bool bPrimary)
 		return;
 	}
 	Owner->OnStopAiming();
+}
+
+
+void UPowerupActivatorComponent::RefreshUI()
+{
+	AFortuneFrenzyGameMode * FortuneFrenzyGameMode = Cast<AFortuneFrenzyGameMode>(GetWorld()->GetAuthGameMode());
+	if (FortuneFrenzyGameMode != nullptr)
+	{
+		FortuneFrenzyGameMode->UpdatePowerupUI();
+		UE_LOG(LogTemp, Warning, TEXT("Called"))
+	}
+}
+
+void UPowerupActivatorComponent::GetRandomPowerup(FPowerup & outPower)
+{
+	if (PowerupData == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("PoweripActivatorComponent:GetRandomPowerup - power-up data table not assigned"))
+		return;
+	}
+	TArray<FPowerup*> outItems;
+	PowerupData->GetAllRows<FPowerup>("GENERAL", outItems);
+
+	int randomIndex = FMath::RandRange(0, outItems.Num());
+	outPower = *outItems[randomIndex];
 }

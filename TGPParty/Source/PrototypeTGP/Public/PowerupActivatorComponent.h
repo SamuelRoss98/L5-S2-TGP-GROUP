@@ -6,9 +6,11 @@
 #include "Components/ActorComponent.h"
 
 #include "Powerup.h"
+#include "Engine/DataTable.h"
 
 #include "PowerupActivatorComponent.generated.h"
 
+class UMaterial;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROTOTYPETGP_API UPowerupActivatorComponent : public UActorComponent
@@ -18,6 +20,9 @@ class PROTOTYPETGP_API UPowerupActivatorComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UPowerupActivatorComponent();
+
+	// Called every frame
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	// Called when the action for using primary powerup is first pressed.
 	void UsePrimaryPowerupPressed();
@@ -31,13 +36,19 @@ public:
 	// Called when the action for using secondary powerup is released.
 	void UseSecondaryPowerupReleased();
 
+	// Called to give the controller a powerup when one is collected.
+	UFUNCTION(BlueprintCallable)
+	void PickupPowerup();
+
+	UFUNCTION(BlueprintPure)
+	UMaterial* GetPrimaryPowerupMaterial() const;
+
+	UFUNCTION(BlueprintPure)
+	UMaterial* GetSecondaryPowerupMaterial() const;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
 	// Starts the powerup useage timers.
@@ -55,6 +66,12 @@ private:
 	// Handles projectile casting.
 	void ProjectileCast(bool bPrimary);
 
+	// Refreshes UI.
+	void RefreshUI();
+
+	// Assigns a random power-up to the input param.
+	void GetRandomPowerup(FPowerup& outPower);
+
 protected:
 	// Maximum time (seconds) that powerup input can be held before self-cast switches to projectile.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -67,6 +84,22 @@ protected:
 	// Data for secondary power-up.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	FPowerup SecondaryPowerup;
+
+	// Material for power-up wheel.
+	UPROPERTY(EditDefaultsOnly)
+	UMaterial* PowerupWheelMaterial = nullptr;
+
+	// Material for no power-up.
+	UPROPERTY(EditDefaultsOnly)
+	UMaterial* PowerupNoneMaterial = nullptr;
+
+	// Time it takes for the power-up wheel to spin.
+	UPROPERTY(EditDefaultsOnly)
+	float PowerWheelTimer = 3.0f;
+
+	// Power-up data table.
+	UPROPERTY(EditAnywhere)
+	UDataTable* PowerupData = nullptr;
 
 private:
 	// True while a power-up is being cast/aimed.
@@ -84,9 +117,19 @@ private:
 	// Current aiming direction.
 	FVector AimingDirection = FVector::ZeroVector;
 
+	// True when the primary power-up is ready to use.
+	bool bPrimaryPowerupReadyToUse = false;
+
+	// True when the secondary power-up is ready to use.
+	bool bSecondaryPowerupReadyToUse = false;
+
 	// True while there is a primary power-up to use.
-	bool bHasPrimaryPowerup = true;
+	bool bHasPrimaryPowerup = false;
 
 	// True while there is a secondary power-up to use.
-	bool bHasSecondaryPowerup = true;
+	bool bHasSecondaryPowerup = false;
+
+	// Timers for selection wheel
+	float PrimarySelectionTimer = 0.0f;
+	float SecondarySelectionTimer = 0.0f;
 };

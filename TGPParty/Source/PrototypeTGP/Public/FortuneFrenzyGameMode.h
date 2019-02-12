@@ -14,7 +14,8 @@ class PROTOTYPETGP_API AFortuneFrenzyGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+public:
+	// Updates power-up icons UI.
+	UFUNCTION(BlueprintImplementableEvent)
+	void UpdatePowerupUI();
 };

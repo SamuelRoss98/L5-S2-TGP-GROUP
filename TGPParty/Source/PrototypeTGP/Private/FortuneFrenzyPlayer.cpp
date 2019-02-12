@@ -173,3 +173,8 @@ void AFortuneFrenzyPlayer::SetMoveAxisVertical(float Value)
 {
 	MoveAxisVertical = Value;
 }
+
+UPowerupActivatorComponent * AFortuneFrenzyPlayer::GetPowerupActivator() const
+{
+	return PowerupActivator;
+}

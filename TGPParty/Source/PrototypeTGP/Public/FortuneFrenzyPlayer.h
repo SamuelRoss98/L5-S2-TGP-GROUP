@@ -50,6 +50,10 @@ public:
 	// Sets the vertical move input.
 	void SetMoveAxisVertical(float Value);
 
+	// Returns the players power-up activator component.
+	UFUNCTION(BlueprintPure)
+	UPowerupActivatorComponent* GetPowerupActivator() const;
+
 	// Invoked when the players aims something.
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnStartAiming();
