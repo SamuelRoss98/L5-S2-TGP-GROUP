@@ -4,6 +4,8 @@
 #include "Engine/DataTable.h"
 #include "StatModifier.h"
 
+#include "Materials/Material.h"
+
 #include "Powerup.generated.h"
 
 USTRUCT(BlueprintType)
@@ -17,8 +19,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString Name;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	FText IconPath;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UMaterial * Icon;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bTeleport;
