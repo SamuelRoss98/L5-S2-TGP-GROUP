@@ -187,6 +187,11 @@ void UPowerupActivatorComponent::PickupPowerup()
 	}
 }
 
+bool UPowerupActivatorComponent::CanPickupPowerup() const
+{
+	return (!bHasPrimaryPowerup || !bHasSecondaryPowerup);
+}
+
 UMaterial * UPowerupActivatorComponent::GetPrimaryPowerupMaterial() const
 {
 	if (!bHasPrimaryPowerup)

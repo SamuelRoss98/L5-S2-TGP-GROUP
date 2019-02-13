@@ -42,6 +42,9 @@ public:
 	void PickupPowerup();
 
 	UFUNCTION(BlueprintPure)
+	bool CanPickupPowerup() const;
+
+	UFUNCTION(BlueprintPure)
 	UMaterial* GetPrimaryPowerupMaterial() const;
 
 	UFUNCTION(BlueprintPure)
