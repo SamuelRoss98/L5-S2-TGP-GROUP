@@ -295,6 +295,6 @@ void UPowerupActivatorComponent::GetRandomPowerup(FPowerup & outPower)
 	TArray<FPowerup*> outItems;
 	PowerupData->GetAllRows<FPowerup>("GENERAL", outItems);
 
-	int randomIndex = FMath::RandRange(0, outItems.Num());
+	int randomIndex = FMath::RandRange(0, outItems.Num() - 1);
 	outPower = *outItems[randomIndex];
 }
