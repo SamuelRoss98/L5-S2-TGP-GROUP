@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "FortuneFrenzyPlayer.h"
 #include "FortuneFrenzyGameMode.h"
+#include "PowerupProjectile.h"
 
 UPowerupActivatorComponent::UPowerupActivatorComponent()
 {
@@ -301,13 +302,27 @@ void UPowerupActivatorComponent::SelfCast(bool bPrimary)
 
 void UPowerupActivatorComponent::ProjectileCast(bool bPrimary)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Power-up projectile cast."))
-
 	AFortuneFrenzyPlayer* Owner = Cast<AFortuneFrenzyPlayer>(GetOwner());
 	if (Owner == nullptr)
 	{
 		return;
 	}
+
+	if (PowerupProjectileClass == nullptr)
+	{
+		return;
+	}
+
+	FVector SpawnLocation = GetOwner()->GetActorLocation();
+	FRotator SpawnRotation = GetOwner()->GetActorRotation();
+	FActorSpawnParameters Params;
+
+	APowerupProjectile* SpawnedProjectile = Cast<APowerupProjectile>(GetWorld()->SpawnActor(PowerupProjectileClass, &SpawnLocation, &SpawnRotation, Params));
+	if (SpawnedProjectile != nullptr)
+	{
+		SpawnedProjectile->SetPowerup(bPrimary ? PrimaryPowerup : SecondaryPowerup);
+	}
+
 	Owner->OnStopAiming();
 }
 
@@ -321,6 +336,7 @@ void UPowerupActivatorComponent::RefreshUI()
 		UE_LOG(LogTemp, Warning, TEXT("Called"))
 	}
 }
+
 
 void UPowerupActivatorComponent::GetRandomPowerup(FPowerup & outPower)
 {

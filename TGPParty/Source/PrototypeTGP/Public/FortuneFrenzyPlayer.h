@@ -30,6 +30,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	// Applies a power-up.
+	UFUNCTION(BlueprintCallable)
 	void ApplyPowerup(const FPowerup& Powerup);
 
 	// Called when powerup input action is pressed.

@@ -11,6 +11,7 @@
 #include "PowerupActivatorComponent.generated.h"
 
 class UMaterial;
+class APowerupProjectile;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROTOTYPETGP_API UPowerupActivatorComponent : public UActorComponent
@@ -100,6 +101,10 @@ protected:
 	// Power-up data table.
 	UPROPERTY(EditAnywhere)
 	UDataTable* PowerupData = nullptr;
+
+	// Power-up projectile class to spawn from.
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<APowerupProjectile> PowerupProjectileClass = nullptr;
 
 private:
 	// True while a power-up is being cast/aimed.
