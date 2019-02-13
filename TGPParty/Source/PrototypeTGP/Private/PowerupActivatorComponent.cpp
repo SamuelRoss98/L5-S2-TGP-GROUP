@@ -74,6 +74,16 @@ void UPowerupActivatorComponent::TickComponent(float DeltaTime, ELevelTick TickT
 
 void UPowerupActivatorComponent::UsePrimaryPowerupPressed()
 {
+	if (!bHasPrimaryPowerup)
+	{
+		return;
+	}
+
+	if (!bPrimaryPowerupReadyToUse)
+	{
+		return;
+	}
+
 	if (bPowerupInUse)
 	{
 		return;
@@ -86,11 +96,20 @@ void UPowerupActivatorComponent::UsePrimaryPowerupPressed()
 
 void UPowerupActivatorComponent::UsePrimaryPowerupReleased()
 {
-	if (!bPrimaryInUse || !bPowerupInUse)
+	if (!bHasPrimaryPowerup)
 	{
 		return;
 	}
 
+	if (!bPrimaryPowerupReadyToUse)
+	{
+		return;
+	}
+
+	if (!bPrimaryInUse || !bPowerupInUse)
+	{
+		return;
+	}
 
 	CastPowerup(true);
 }
@@ -98,6 +117,16 @@ void UPowerupActivatorComponent::UsePrimaryPowerupReleased()
 
 void UPowerupActivatorComponent::UseSecondaryPowerupPressed()
 {
+	if (!bHasSecondaryPowerup)
+	{
+		return;
+	}
+
+	if (!bSecondaryPowerupReadyToUse)
+	{
+		return;
+	}
+
 	if (bPowerupInUse)
 	{
 		return;
@@ -110,6 +139,16 @@ void UPowerupActivatorComponent::UseSecondaryPowerupPressed()
 
 void UPowerupActivatorComponent::UseSecondaryPowerupReleased()
 {
+	if (!bHasSecondaryPowerup)
+	{
+		return;
+	}
+
+	if (!bSecondaryPowerupReadyToUse)
+	{
+		return;
+	}
+
 	if (bPrimaryInUse || !bPowerupInUse)
 	{
 		return;
