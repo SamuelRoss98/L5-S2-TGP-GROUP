@@ -296,8 +296,6 @@ void UPowerupActivatorComponent::SelfCast(bool bPrimary)
 
 		Owner->ApplyPowerup(SecondaryPowerup);
 	}
-
-	UE_LOG(LogTemp, Warning, TEXT("Power-up self-cast."))
 }
 
 
