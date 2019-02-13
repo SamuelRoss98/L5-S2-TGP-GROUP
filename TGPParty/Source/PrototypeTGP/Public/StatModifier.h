@@ -19,7 +19,8 @@ enum class EModifierType : uint8
 	Stun		UMETA(DisplayName = "Stun"),
 	ForcePush	UMETA(DisplayName = "ForcePush"),
 	ForcePull	UMETA(DisplayName = "ForcePull"),
-	Visibility	UMETA(DisplayName = "Visibility")
+	Visibility	UMETA(DisplayName = "Visibility"),
+	Reverse		UMETA(DisplayName = "Reverse")
 };
 
 USTRUCT(BlueprintType)

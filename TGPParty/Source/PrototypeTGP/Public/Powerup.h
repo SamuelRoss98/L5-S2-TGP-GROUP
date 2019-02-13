@@ -48,4 +48,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FStatModifier VisibilityModifier;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FStatModifier ReverseModifier;
 };

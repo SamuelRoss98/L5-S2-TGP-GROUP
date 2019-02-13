@@ -34,6 +34,7 @@ void UStatModifierComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	TickModifierTimer(bForcePullModifierActive, ForcePullModifier, DeltaTime);
 	TickModifierTimer(bForcePushModifierActive, ForcePushModifier, DeltaTime);
 	TickModifierTimer(bVisibilityModifierActive, VisibilityModifier, DeltaTime);
+	TickModifierTimer(bReverseModifierActive, ReverseModifier, DeltaTime);
 }
 
 
@@ -48,6 +49,7 @@ void UStatModifierComponent::ApplyPowerup(const FPowerup & PowerupToApply)
 	ApplyModiferChange(bForcePullModifierActive, ForcePullModifier, PowerupToApply.ForcePullModifier);
 	ApplyModiferChange(bForcePushModifierActive, ForcePushModifier, PowerupToApply.ForcePushModifier);
 	ApplyModiferChange(bVisibilityModifierActive, VisibilityModifier, PowerupToApply.VisibilityModifier);
+	ApplyModiferChange(bReverseModifierActive, ReverseModifier, PowerupToApply.ReverseModifier);
 }
 
 
@@ -67,6 +69,8 @@ bool UStatModifierComponent::IsModifierActive(EModifierType Type) const
 		return bForcePullModifierActive;
 	case EModifierType::Visibility:
 		return bVisibilityModifierActive;
+	case EModifierType::Reverse:
+		return bReverseModifierActive;
 	default:
 		UE_LOG(LogTemp, Warning, TEXT("UStatModifierComponent::IsModifierActive - invalid argument."))
 			return false;
@@ -90,6 +94,8 @@ float UStatModifierComponent::GetModifierAmount(EModifierType Type) const
 		return ForcePullModifier.Amount;
 	case EModifierType::Visibility:
 		return VisibilityModifier.Amount;
+	case EModifierType::Reverse:
+		return ReverseModifier.Amount;
 	default:
 		UE_LOG(LogTemp, Warning, TEXT("UStatModifierComponent::GetModifierAmount - invalid argument."))
 			return 0.0f;

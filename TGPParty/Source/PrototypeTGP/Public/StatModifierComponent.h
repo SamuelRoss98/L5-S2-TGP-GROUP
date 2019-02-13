@@ -49,6 +49,7 @@ private:
 	FStatModifier ForcePullModifier;
 	FStatModifier ForcePushModifier;
 	FStatModifier VisibilityModifier;
+	FStatModifier ReverseModifier;
 
 	bool bSpeedModifierActive = false;
 	bool bSlownessModifierActive = false;
@@ -56,5 +57,5 @@ private:
 	bool bForcePullModifierActive = false;
 	bool bForcePushModifierActive = false;
 	bool bVisibilityModifierActive = false;
-	
+	bool bReverseModifierActive = false;
 };
