@@ -51,4 +51,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FStatModifier ReverseModifier;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FStatModifier InvulnerabilityModifer;
 };

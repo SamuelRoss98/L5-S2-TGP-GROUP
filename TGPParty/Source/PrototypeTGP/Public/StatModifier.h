@@ -14,13 +14,14 @@ enum class EModifierCombinationMethod : uint8
 UENUM(BlueprintType)
 enum class EModifierType : uint8
 {
-	Speed		UMETA(DisplayName = "Speed"),
-	Slowness	UMETA(DisplayName = "Slowness"),
-	Stun		UMETA(DisplayName = "Stun"),
-	ForcePush	UMETA(DisplayName = "ForcePush"),
-	ForcePull	UMETA(DisplayName = "ForcePull"),
-	Visibility	UMETA(DisplayName = "Visibility"),
-	Reverse		UMETA(DisplayName = "Reverse")
+	Speed				UMETA(DisplayName = "Speed"),
+	Slowness			UMETA(DisplayName = "Slowness"),
+	Stun				UMETA(DisplayName = "Stun"),
+	ForcePush			UMETA(DisplayName = "ForcePush"),
+	ForcePull			UMETA(DisplayName = "ForcePull"),
+	Visibility			UMETA(DisplayName = "Visibility"),
+	Reverse				UMETA(DisplayName = "Reverse"),
+	Invulnerability		UMETA(DisplayName = "Invunerability")
 };
 
 USTRUCT(BlueprintType)
