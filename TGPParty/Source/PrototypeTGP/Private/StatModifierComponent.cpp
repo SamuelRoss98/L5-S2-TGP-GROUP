@@ -35,11 +35,18 @@ void UStatModifierComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	TickModifierTimer(bForcePushModifierActive, ForcePushModifier, DeltaTime);
 	TickModifierTimer(bVisibilityModifierActive, VisibilityModifier, DeltaTime);
 	TickModifierTimer(bReverseModifierActive, ReverseModifier, DeltaTime);
+	TickModifierTimer(bInvulnerabilityModifierActive, InvulerabilityModifier, DeltaTime);
 }
 
 
 void UStatModifierComponent::ApplyPowerup(const FPowerup & PowerupToApply)
 {
+	// If invulerability is active power-ups cannot be applied.
+	if (bInvulnerabilityModifierActive)
+	{
+		return;
+	}
+
 	// TODO: Power-up actions.
 
 	// Apply modifiers.
@@ -50,6 +57,7 @@ void UStatModifierComponent::ApplyPowerup(const FPowerup & PowerupToApply)
 	ApplyModiferChange(bForcePushModifierActive, ForcePushModifier, PowerupToApply.ForcePushModifier);
 	ApplyModiferChange(bVisibilityModifierActive, VisibilityModifier, PowerupToApply.VisibilityModifier);
 	ApplyModiferChange(bReverseModifierActive, ReverseModifier, PowerupToApply.ReverseModifier);
+	ApplyModiferChange(bInvulnerabilityModifierActive, InvulerabilityModifier, PowerupToApply.InvulnerabilityModifer);
 }
 
 
@@ -71,6 +79,8 @@ bool UStatModifierComponent::IsModifierActive(EModifierType Type) const
 		return bVisibilityModifierActive;
 	case EModifierType::Reverse:
 		return bReverseModifierActive;
+	case EModifierType::Invulnerability:
+		return bInvulnerabilityModifierActive;
 	default:
 		UE_LOG(LogTemp, Warning, TEXT("UStatModifierComponent::IsModifierActive - invalid argument."))
 			return false;
@@ -96,6 +106,8 @@ float UStatModifierComponent::GetModifierAmount(EModifierType Type) const
 		return VisibilityModifier.Amount;
 	case EModifierType::Reverse:
 		return ReverseModifier.Amount;
+	case EModifierType::Invulnerability:
+		return InvulerabilityModifier.Amount;
 	default:
 		UE_LOG(LogTemp, Warning, TEXT("UStatModifierComponent::GetModifierAmount - invalid argument."))
 			return 0.0f;
