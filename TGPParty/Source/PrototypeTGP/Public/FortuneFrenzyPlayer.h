@@ -67,6 +67,14 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void Teleport();
 
+	// Spawn clones power-up event.
+	UFUNCTION(BlueprintImplementableEvent)
+	void SpawnClones();
+
+	// Spawn decoy treasure power-up event.
+	UFUNCTION(BlueprintImplementableEvent)
+	void SpawnDecoyTreasure();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

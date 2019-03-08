@@ -2,6 +2,7 @@
 
 #include "StatModifierComponent.h"
 
+#include "FortuneFrenzyPlayer.h"
 
 UStatModifierComponent::UStatModifierComponent()
 {
@@ -47,7 +48,25 @@ void UStatModifierComponent::ApplyPowerup(const FPowerup & PowerupToApply)
 		return;
 	}
 
-	// TODO: Power-up actions.
+	// Call required power-up events.
+	AFortuneFrenzyPlayer* Player = Cast<AFortuneFrenzyPlayer>(GetOwner());
+	if (Player != nullptr)
+	{
+		if (PowerupToApply.bSpawnDecoyTreasure)
+		{
+			Player->SpawnDecoyTreasure();
+		}
+
+		if (PowerupToApply.bTeleport)
+		{
+			Player->Teleport();
+		}
+
+		if (PowerupToApply.bSpawnClones)
+		{
+			Player->SpawnClones();
+		}
+	}
 
 	// Apply modifiers.
 	ApplyModiferChange(bSpeedModifierActive, SpeedModifier, PowerupToApply.SpeedModifier);
