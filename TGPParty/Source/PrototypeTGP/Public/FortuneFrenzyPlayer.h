@@ -63,6 +63,10 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnStopAiming();
 
+	// Teleport power-up event.
+	UFUNCTION(BlueprintImplementableEvent)
+	void Teleport();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
