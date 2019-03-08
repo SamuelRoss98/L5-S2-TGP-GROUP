@@ -48,7 +48,6 @@ void UStatModifierComponent::ApplyPowerup(const FPowerup & PowerupToApply)
 		return;
 	}
 
-	// Call required power-up events.
 	AFortuneFrenzyPlayer* Player = Cast<AFortuneFrenzyPlayer>(GetOwner());
 	if (Player != nullptr)
 	{
@@ -66,6 +65,9 @@ void UStatModifierComponent::ApplyPowerup(const FPowerup & PowerupToApply)
 		{
 			Player->SpawnClones();
 		}
+
+		// Call state change event.
+		Player->PowerupStateChange();
 	}
 
 	// Apply modifiers.
@@ -190,5 +192,12 @@ void UStatModifierComponent::TickModifierTimer(bool & bIsModifierActive, FStatMo
 		Modifier.Duration = 0.0f;
 		Modifier.Amount = 0.0f;
 		bIsModifierActive = false;
+
+		// Modifier expired - so call state change.
+		AFortuneFrenzyPlayer* Player = Cast<AFortuneFrenzyPlayer>(GetOwner());
+		if (Player != nullptr)
+		{
+			Player->PowerupStateChange();
+		}
 	}
 }

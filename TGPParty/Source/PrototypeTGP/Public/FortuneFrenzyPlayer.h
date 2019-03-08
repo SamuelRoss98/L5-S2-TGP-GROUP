@@ -75,6 +75,10 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void SpawnDecoyTreasure();
 
+	// Called when a power-up is activated, or expires.
+	UFUNCTION(BlueprintImplementableEvent)
+	void PowerupStateChange();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
