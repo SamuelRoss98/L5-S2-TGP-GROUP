@@ -62,7 +62,7 @@ void AFloorManager::MoveFloor()
 	FVector Location = ArrayOfFloors[RandFloorToMove]->GetActorLocation();
 
 	ArrayOfFloors[RandFloorToMove]->MoveOffScreen = true;
-	ArrayOfFloors[RandFloorToPlay]->SetFloorPosition(FVector((Location.X * 3), (Location.Y * 3), 100.0f));
+	ArrayOfFloors[RandFloorToPlay]->SetFloorPosition(FVector((Location.X * 3), (Location.Y * 3), 200.0f));
 	ArrayOfFloors[RandFloorToPlay]->SetGoalPosition(Location);
 	ArrayOfFloors.Swap(RandFloorToMove, RandFloorToPlay);
 

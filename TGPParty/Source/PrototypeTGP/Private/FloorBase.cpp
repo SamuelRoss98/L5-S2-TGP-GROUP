@@ -35,13 +35,14 @@ void AFloorBase::Tick(float DeltaTime)
 	{
 		FVector Position = GetActorLocation();
 
-		Position.Y += YMovement * DeltaTime;
-		Position.X += XMovement * DeltaTime;
+		Position.Y += YMovement * DeltaTime * 1.2;
+		Position.X += XMovement * DeltaTime * 1.2;
+		Position.Z -= 300.f * DeltaTime;
 
 		SetActorLocation(Position);
 
-		if (Position.Y >= 2000.0f || Position.Y <= -2000.0f || 
-			Position.X >= 1500.0f || Position.X <= -1500.0f)
+		if (Position.Y >= 2500.0f || Position.Y <= -2500.0f || 
+			Position.X >= 2500.0f || Position.X <= -2500.0f)
 		{
 			MoveOffScreen = false;
 			SetActorLocation(FVector(1500.f, 1500.f, -1500.f));
@@ -52,19 +53,61 @@ void AFloorBase::Tick(float DeltaTime)
 	{
 		FVector Position = GetActorLocation();
 
-		if (Position.X != Destination.X)
+		if (MoveUp)
 		{
-			Position.X -= XMovement * DeltaTime;
+			if (Position.X < Destination.X)
+			{
+				Position.X -= XMovement * DeltaTime;
+			}
+			else
+			{
+				MoveUp = false;
+				Position.X = Destination.X;
+			}
 		}
 
-		if (Position.Y != Destination.Y)
+		if (MoveDown)
 		{
-			Position.Y -= YMovement * DeltaTime;
+			if (Position.X > Destination.X)
+			{
+				Position.X -= XMovement * DeltaTime;
+			}
+			else
+			{
+				MoveDown = false;
+				Position.X = Destination.X;
+			}
+		}
+
+		if (MoveLeft)
+		{
+			if (Position.Y > Destination.Y)
+			{
+				Position.Y -= YMovement * DeltaTime;
+			}
+			else
+			{
+				MoveLeft = false;
+				Position.Y = Destination.Y;
+			}
+		}
+
+		if (MoveRight)
+		{
+			if (Position.Y < Destination.Y)
+			{
+				Position.Y -= YMovement * DeltaTime;
+			}
+			else
+			{
+				MoveRight = false;
+				Position.Y = Destination.Y;
+			}
 		}
 
 		if (Position.Z > -12.f)
 		{
-			Position.Z -= 50.f * DeltaTime;
+			Position.Z -= 100.f * DeltaTime;
 		}
 		else if (Position.Z < -12.f)
 		{
@@ -89,8 +132,35 @@ void AFloorBase::SetFloorPosition(FVector newPosition)
 void AFloorBase::SetGoalPosition(FVector newPosition)
 {
 	Destination = newPosition;
-
 	MoveOnScreen = true;
+
+	if (newPosition.X > 0.0f)
+	{
+		MoveDown = true;
+	}
+	else if (newPosition.X < 0.0f)
+	{
+		MoveUp = true;
+	}
+	else
+	{
+		MoveUp = false;
+		MoveDown = false;
+	}
+
+	if (newPosition.Y > 0.0f)
+	{
+		MoveLeft = true;
+	}
+	else if (newPosition.Y < 0.0f)
+	{
+		MoveRight = true;
+	}
+	else
+	{
+		MoveRight = false;
+		MoveLeft = false;
+	}
 }
 
 void AFloorBase::SetFloorMovement()
@@ -99,16 +169,28 @@ void AFloorBase::SetFloorMovement()
 	float YPos = GetActorLocation().Y;
 
 	if (XPos > 0.f)
+	{
 		XMovement = 600.f;
+	}
 	else if (XPos < 0.f)
+	{
 		XMovement = -600.f;
+	}
 	else
+	{
 		XMovement = 0.f;
+	}
 
 	if (YPos > 0.f)
+	{
 		YMovement = 600.f;
+	}
 	else if (YPos < 0.f)
+	{
 		YMovement = -600.f;
+	}
 	else
+	{
 		YMovement = 0.f;
+	}
 }

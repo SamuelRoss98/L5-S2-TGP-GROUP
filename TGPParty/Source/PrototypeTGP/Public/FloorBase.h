@@ -26,19 +26,32 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// Sets floor position and calls SetFloorMovement
 	void SetFloorPosition(FVector newPosition);
+
+	// Sets the floors target destination
 	void SetGoalPosition(FVector newPosition);
 
 private:
+	// Sets floors direction to move off or on screen
 	void SetFloorMovement();
 
 private:
+	// Floors x and y movement;
 	float XMovement;
 	float YMovement;
+
 	bool MoveOnScreen;
 
+	// Floors target destination
 	FVector Destination;
 
 public:
 	bool MoveOffScreen;
+
+	// Checks direction to move in
+	bool MoveRight;
+	bool MoveLeft;
+	bool MoveUp;
+	bool MoveDown;
 };
