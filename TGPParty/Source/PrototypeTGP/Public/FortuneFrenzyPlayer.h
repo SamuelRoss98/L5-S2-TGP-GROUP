@@ -79,6 +79,14 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void PowerupStateChange();
 
+	// Fires the primary power-up as projectile.
+	UFUNCTION(BlueprintImplementableEvent)
+	void FirePrimaryPowerProjectile();
+
+	// Fires the secondary power-up as projectile.
+	UFUNCTION(BlueprintImplementableEvent)
+	void FireSecondaryPowerProjectile();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
