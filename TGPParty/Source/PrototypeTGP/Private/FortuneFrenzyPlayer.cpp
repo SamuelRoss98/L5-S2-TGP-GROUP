@@ -142,7 +142,6 @@ void AFortuneFrenzyPlayer::UsePowerupPressed(bool bPrimary)
 {
 	if (PowerupActivator == nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Called"))
 		return;
 	}
 

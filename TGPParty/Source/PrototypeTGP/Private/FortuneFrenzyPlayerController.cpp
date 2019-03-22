@@ -34,10 +34,8 @@ void AFortuneFrenzyPlayerController::SetupInputComponent()
 		InputComponent->BindAction("UseSecondaryPowerup", IE_Pressed, this, &AFortuneFrenzyPlayerController::UseSecondaryPowerupPressed);
 		InputComponent->BindAction("UsePrimaryPowerup", IE_Released, this, &AFortuneFrenzyPlayerController::UsePrimaryPowerupReleased);
 		InputComponent->BindAction("UseSecondaryPowerup", IE_Released, this, &AFortuneFrenzyPlayerController::UseSecondaryPowerupReleased);
-
-		//InputComponent->BindAction("UsePowerupPrimary", IE_Pressed, this, &APowerupPlayerController::UsePrimaryPowerupPressed);
-		//InputComponent->BindAxis("LookVertical", this, &AFortuneFrenzyPlayer::SetLookAxisVertical);*/
 	}
+
 	else
 	{
 		UE_LOG(LogTemp, Error, TEXT("AFortuneFrenzyPlayerController::SetupInputComponent - InputComponent is nullptr"))

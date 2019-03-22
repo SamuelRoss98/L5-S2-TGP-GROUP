@@ -337,7 +337,6 @@ void UPowerupActivatorComponent::RefreshUI()
 	if (FortuneFrenzyGameMode != nullptr)
 	{
 		FortuneFrenzyGameMode->UpdatePowerupUI();
-		UE_LOG(LogTemp, Warning, TEXT("Called"))
 	}
 }
 
