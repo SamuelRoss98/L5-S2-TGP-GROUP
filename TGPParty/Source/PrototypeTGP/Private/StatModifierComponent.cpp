@@ -40,10 +40,10 @@ void UStatModifierComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 }
 
 
-void UStatModifierComponent::ApplyPowerup(const FPowerup & PowerupToApply)
+void UStatModifierComponent::ApplyPowerup(const FPowerup & PowerupToApply, bool bSelfCast)
 {
 	// If invulerability is active power-ups cannot be applied.
-	if (bInvulnerabilityModifierActive)
+	if (bInvulnerabilityModifierActive && !bSelfCast)
 	{
 		return;
 	}

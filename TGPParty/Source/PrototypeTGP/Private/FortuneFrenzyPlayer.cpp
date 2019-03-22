@@ -127,14 +127,14 @@ void AFortuneFrenzyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void AFortuneFrenzyPlayer::ApplyPowerup(const FPowerup & Powerup)
+void AFortuneFrenzyPlayer::ApplyPowerup(const FPowerup & Powerup, bool bSelfCast)
 {
 	if (StatChanges == nullptr)
 	{
 		return;
 	}
 
-	StatChanges->ApplyPowerup(Powerup);
+	StatChanges->ApplyPowerup(Powerup, bSelfCast);
 }
 
 
