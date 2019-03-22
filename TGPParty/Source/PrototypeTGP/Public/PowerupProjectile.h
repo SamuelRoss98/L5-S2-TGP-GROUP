@@ -26,6 +26,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Sets the power-up stored in this projectile.
+	UFUNCTION(BlueprintCallable)
 	void SetPowerup(const FPowerup& Powerup);
 
 	// Returns the power-up stored in this projectile.

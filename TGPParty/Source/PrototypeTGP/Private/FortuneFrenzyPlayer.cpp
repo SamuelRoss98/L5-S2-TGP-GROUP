@@ -78,6 +78,7 @@ void AFortuneFrenzyPlayer::UpdateMovement()
 	}
 
 	FVector MovementDirection = FVector(MoveAxisVertical, MoveAxisHorizontal, 0.0f);
+	MovementDirection.Normalize();
 
 	// Reverse controls if modifier is active.
 	if (StatChanges->IsModifierActive(EModifierType::Reverse))
@@ -126,14 +127,14 @@ void AFortuneFrenzyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void AFortuneFrenzyPlayer::ApplyPowerup(const FPowerup & Powerup)
+void AFortuneFrenzyPlayer::ApplyPowerup(const FPowerup & Powerup, bool bSelfCast)
 {
 	if (StatChanges == nullptr)
 	{
 		return;
 	}
 
-	StatChanges->ApplyPowerup(Powerup);
+	StatChanges->ApplyPowerup(Powerup, bSelfCast);
 }
 
 
@@ -141,7 +142,6 @@ void AFortuneFrenzyPlayer::UsePowerupPressed(bool bPrimary)
 {
 	if (PowerupActivator == nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Called"))
 		return;
 	}
 

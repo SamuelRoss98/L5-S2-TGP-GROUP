@@ -25,7 +25,7 @@ public:
 
 	// Applies a power-up.
 	UFUNCTION(BlueprintCallable)
-	void ApplyPowerup(const FPowerup& PowerupToApply);
+	void ApplyPowerup(const FPowerup& PowerupToApply, bool bSelfCast);
 
 	// Returns true if the given modifier is active.
 	UFUNCTION(BlueprintPure)

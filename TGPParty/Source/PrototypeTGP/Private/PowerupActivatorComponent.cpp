@@ -289,7 +289,7 @@ void UPowerupActivatorComponent::SelfCast(bool bPrimary)
 			return;
 		}
 
-		Owner->ApplyPowerup(PrimaryPowerup);
+		Owner->ApplyPowerup(PrimaryPowerup, true);
 	}
 
 	// Secondary power.
@@ -300,7 +300,7 @@ void UPowerupActivatorComponent::SelfCast(bool bPrimary)
 			return;
 		}
 
-		Owner->ApplyPowerup(SecondaryPowerup);
+		Owner->ApplyPowerup(SecondaryPowerup, true);
 	}
 }
 
@@ -318,14 +318,13 @@ void UPowerupActivatorComponent::ProjectileCast(bool bPrimary)
 		return;
 	}
 
-	FVector SpawnLocation = GetOwner()->GetActorLocation();
-	FRotator SpawnRotation = GetOwner()->GetActorRotation();
-	FActorSpawnParameters Params;
-
-	APowerupProjectile* SpawnedProjectile = Cast<APowerupProjectile>(GetWorld()->SpawnActor(PowerupProjectileClass, &SpawnLocation, &SpawnRotation, Params));
-	if (SpawnedProjectile != nullptr)
+	if (bPrimary)
 	{
-		SpawnedProjectile->SetPowerup(bPrimary ? PrimaryPowerup : SecondaryPowerup);
+		Owner->FirePrimaryPowerProjectile();
+	}
+	else
+	{
+		Owner->FireSecondaryPowerProjectile();
 	}
 
 	Owner->OnStopAiming();
@@ -338,7 +337,6 @@ void UPowerupActivatorComponent::RefreshUI()
 	if (FortuneFrenzyGameMode != nullptr)
 	{
 		FortuneFrenzyGameMode->UpdatePowerupUI();
-		UE_LOG(LogTemp, Warning, TEXT("Called"))
 	}
 }
 

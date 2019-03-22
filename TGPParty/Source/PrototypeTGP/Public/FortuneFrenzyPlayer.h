@@ -31,7 +31,7 @@ public:
 
 	// Applies a power-up.
 	UFUNCTION(BlueprintCallable)
-	void ApplyPowerup(const FPowerup& Powerup);
+	void ApplyPowerup(const FPowerup& Powerup, bool bSelfCast);
 
 	// Called when powerup input action is pressed.
 	virtual void UsePowerupPressed(bool bPrimary);
@@ -78,6 +78,14 @@ public:
 	// Called when a power-up is activated, or expires.
 	UFUNCTION(BlueprintImplementableEvent)
 	void PowerupStateChange();
+
+	// Fires the primary power-up as projectile.
+	UFUNCTION(BlueprintImplementableEvent)
+	void FirePrimaryPowerProjectile();
+
+	// Fires the secondary power-up as projectile.
+	UFUNCTION(BlueprintImplementableEvent)
+	void FireSecondaryPowerProjectile();
 
 protected:
 	// Called when the game starts or when spawned
