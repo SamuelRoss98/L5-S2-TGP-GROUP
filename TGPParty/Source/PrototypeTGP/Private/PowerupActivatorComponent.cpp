@@ -289,7 +289,7 @@ void UPowerupActivatorComponent::SelfCast(bool bPrimary)
 			return;
 		}
 
-		Owner->ApplyPowerup(PrimaryPowerup);
+		Owner->ApplyPowerup(PrimaryPowerup, true);
 	}
 
 	// Secondary power.
@@ -300,7 +300,7 @@ void UPowerupActivatorComponent::SelfCast(bool bPrimary)
 			return;
 		}
 
-		Owner->ApplyPowerup(SecondaryPowerup);
+		Owner->ApplyPowerup(SecondaryPowerup, true);
 	}
 }
 
@@ -326,17 +326,6 @@ void UPowerupActivatorComponent::ProjectileCast(bool bPrimary)
 	{
 		Owner->FireSecondaryPowerProjectile();
 	}
-
-	/*FVector SpawnLocation = GetOwner()->GetActorLocation();
-	FRotator SpawnRotation = GetOwner()->GetActorRotation();
-	FActorSpawnParameters Params;
-	Params.Instigator = Owner;
-	
-	APowerupProjectile* SpawnedProjectile = Cast<APowerupProjectile>(GetWorld()->SpawnActor(PowerupProjectileClass, &SpawnLocation, &SpawnRotation, Params));
-	if (SpawnedProjectile != nullptr)
-	{
-		SpawnedProjectile->SetPowerup(bPrimary ? PrimaryPowerup : SecondaryPowerup);
-	}*/
 
 	Owner->OnStopAiming();
 }

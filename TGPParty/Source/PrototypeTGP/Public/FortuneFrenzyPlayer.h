@@ -31,7 +31,7 @@ public:
 
 	// Applies a power-up.
 	UFUNCTION(BlueprintCallable)
-	void ApplyPowerup(const FPowerup& Powerup);
+	void ApplyPowerup(const FPowerup& Powerup, bool bSelfCast);
 
 	// Called when powerup input action is pressed.
 	virtual void UsePowerupPressed(bool bPrimary);
