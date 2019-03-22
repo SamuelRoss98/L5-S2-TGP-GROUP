@@ -78,6 +78,7 @@ void AFortuneFrenzyPlayer::UpdateMovement()
 	}
 
 	FVector MovementDirection = FVector(MoveAxisVertical, MoveAxisHorizontal, 0.0f);
+	MovementDirection.Normalize();
 
 	// Reverse controls if modifier is active.
 	if (StatChanges->IsModifierActive(EModifierType::Reverse))
