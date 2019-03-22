@@ -105,13 +105,13 @@ void AFloorBase::Tick(float DeltaTime)
 			}
 		}
 
-		if (Position.Z > -12.f)
+		if (Position.Z > 0.f)
 		{
 			Position.Z -= 100.f * DeltaTime;
 		}
 		else if (Position.Z < -12.f)
 		{
-			Position.Z = -12.f;
+			Position.Z = 0.f;
 		}
 
 		SetActorLocation(Position);
