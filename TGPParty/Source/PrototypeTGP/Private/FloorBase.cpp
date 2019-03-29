@@ -29,7 +29,8 @@ void AFloorBase::BeginPlay()
 // Called every frame
 void AFloorBase::Tick(float DeltaTime)
 {
-	//Super::Tick(DeltaTime);
+	
+	Super::Tick(DeltaTime);
 
 	if (MoveOffScreen)
 	{

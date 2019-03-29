@@ -7,6 +7,8 @@
 #include "Engine/World.h"
 #include "Engine/GameEngine.h"
 #include "TimerManager.h"
+#include "Particles/ParticleSystemComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AFloorManager::AFloorManager()
@@ -16,7 +18,6 @@ AFloorManager::AFloorManager()
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	RootComponent = Mesh;
-
 }
 
 // Called when the game starts or when spawned
@@ -24,25 +25,26 @@ void AFloorManager::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	// Getting all floors in the scene and adding them to an array
 	for (TActorIterator<AFloorBase> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
 		AFloorBase* NextFloor = *ActorItr;
 		ArrayOfFloors.Add(NextFloor);
 	}
 
+	// Getting all floors that are not in play and moving them of screen.
 	for (int i = 8; i < ArrayOfFloors.Num(); i++)
 	{
 		ArrayOfFloors[i]->SetActorLocation(FVector(-1500.f, -1500.f, -1500.f));
 	}
 
-	GetWorld()->GetTimerManager().SetTimer(GetFloorTimer, this, &AFloorManager::BeginMoveFloor, 8.f, false);
+	GetWorld()->GetTimerManager().SetTimer(MoveFloorTimer, this, &AFloorManager::BeginMoveFloor, 8.f, false);
 }
 
 // Called every frame
 void AFloorManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void AFloorManager::BeginMoveFloor()
@@ -50,7 +52,11 @@ void AFloorManager::BeginMoveFloor()
 	GetWorld()->GetTimerManager().ClearTimer(GetFloorTimer);
 	RandFloorToMove = FMath::RandRange(0, 7);
 
-	//insert particle effect to play here
+	if (SmokeEffect)
+	{
+		//Spawn the smoke effect at the centre of the floor thats going to move
+		UParticleSystemComponent* SmokeComp = UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), SmokeEffect, ArrayOfFloors[RandFloorToMove]->GetActorLocation());
+	}
 	
 	GetWorld()->GetTimerManager().SetTimer(MoveFloorTimer, this, &AFloorManager::MoveFloor, 2.f, false);
 }
