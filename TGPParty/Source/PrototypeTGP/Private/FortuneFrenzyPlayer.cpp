@@ -16,15 +16,6 @@ AFortuneFrenzyPlayer::AFortuneFrenzyPlayer()
 	StatChanges = CreateDefaultSubobject<UStatModifierComponent>("StatChanges");
 	PowerupActivator = CreateDefaultSubobject<UPowerupActivatorComponent>("PowerupActivator");
 
-	if (StatChanges == nullptr)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Stat is nullptr in construction"))
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("Stat is OK is construction"))
-	}
-
 	RootComponent = Mesh;
 }
 
@@ -33,22 +24,12 @@ AFortuneFrenzyPlayer::AFortuneFrenzyPlayer()
 void AFortuneFrenzyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-
-	if (StatChanges == nullptr)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Stat is nullptr in begin play"))
-	}
 }
 
 
 void AFortuneFrenzyPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	if (StatChanges == nullptr)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Stat is nullptr in tick"))
-	}
 
 	UpdateMovement();
 	UpdateLook();
