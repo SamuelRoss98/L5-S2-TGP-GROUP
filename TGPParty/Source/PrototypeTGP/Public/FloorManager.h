@@ -37,4 +37,5 @@ private:
 	FTimerHandle MoveFloorTimer;
 	TArray<class AFloorBase*> ArrayOfFloors;	
 	int32 RandFloorToMove;
+	int32 NumberOfFloors;
 };

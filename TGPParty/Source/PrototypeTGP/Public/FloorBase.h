@@ -36,6 +36,8 @@ private:
 	// Sets floors direction to move off or on screen
 	void SetFloorMovement();
 
+	void Shake(float DeltaTime);
+
 private:
 	// Floors x and y movement;
 	float XMovement;
@@ -48,6 +50,7 @@ private:
 
 public:
 	bool MoveOffScreen;
+	bool Selected;
 
 	// Checks direction to move in
 	bool MoveRight;
