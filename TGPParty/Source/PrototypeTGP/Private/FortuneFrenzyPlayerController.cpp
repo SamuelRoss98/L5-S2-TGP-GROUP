@@ -15,6 +15,8 @@ void AFortuneFrenzyPlayerController::BeginPlay()
 	{
 		UE_LOG(LogTemp, Error, TEXT("AFortuneFrenzyPlayerController::BeginPlay - Failed to spawn player."))
 	}
+
+	Possess(ControlledPlayer);
 }
 
 void AFortuneFrenzyPlayerController::SetupInputComponent()
