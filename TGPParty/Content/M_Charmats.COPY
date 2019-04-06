@@ -1,0 +1,87 @@
+Begin Object Class=/Script/Engine.Material Name="M_Charmats"
+   Begin Object Class=/Script/UnrealEd.SceneThumbnailInfoWithPrimitive Name="SceneThumbnailInfoWithPrimitive_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionVertexColor Name="MaterialExpressionVertexColor_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant3Vector Name="MaterialExpressionConstant3Vector_1"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant3Vector Name="MaterialExpressionConstant3Vector_0"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_2"
+   End Object
+   Begin Object Name="SceneThumbnailInfoWithPrimitive_0"
+   End Object
+   Begin Object Name="MaterialExpressionAdd_0"
+      A=(Expression=MaterialExpressionMultiply'"M_Charmats:MaterialExpressionMultiply_0"')
+      B=(Expression=MaterialExpressionMultiply'"M_Charmats:MaterialExpressionMultiply_1"')
+      MaterialExpressionEditorX=-113
+      MaterialExpressionEditorY=90
+      MaterialExpressionGuid=7988856B4C9EFAE18F24ECB41F6232CF
+      Material=Material'"M_Charmats"'
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_1"
+      A=(Expression=MaterialExpressionVertexColor'"M_Charmats:MaterialExpressionVertexColor_0"',OutputIndex=2,Mask=1,MaskG=1)
+      B=(Expression=MaterialExpressionConstant3Vector'"M_Charmats:MaterialExpressionConstant3Vector_1"')
+      MaterialExpressionEditorX=-279
+      MaterialExpressionEditorY=192
+      MaterialExpressionGuid=1390E26346B7B9D209BB23A06B5A0610
+      Material=Material'"M_Charmats"'
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_0"
+      A=(Expression=MaterialExpressionVertexColor'"M_Charmats:MaterialExpressionVertexColor_0"',OutputIndex=1,Mask=1,MaskR=1)
+      B=(Expression=MaterialExpressionConstant3Vector'"M_Charmats:MaterialExpressionConstant3Vector_0"')
+      MaterialExpressionEditorX=-283
+      MaterialExpressionEditorY=-39
+      MaterialExpressionGuid=81DEFD6743F1542FA1A255B0ECAE2875
+      Material=Material'"M_Charmats"'
+   End Object
+   Begin Object Name="MaterialExpressionVertexColor_0"
+      MaterialExpressionEditorX=-480
+      MaterialExpressionEditorY=-144
+      MaterialExpressionGuid=1EEA8DD04F6115BBEE5B058204AEA68E
+      Material=Material'"M_Charmats"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant3Vector_1"
+      Constant=(R=1.000000,G=0.000000,B=0.052580,A=0.000000)
+      MaterialExpressionEditorX=-544
+      MaterialExpressionEditorY=240
+      MaterialExpressionGuid=293C2C434E4B8F15DD7EFBB37EB440B8
+      Material=Material'"M_Charmats"'
+   End Object
+   Begin Object Name="MaterialExpressionConstant3Vector_0"
+      Constant=(R=0.570000,G=0.669121,B=1.000000,A=0.000000)
+      MaterialExpressionEditorX=-527
+      MaterialExpressionEditorY=78
+      MaterialExpressionGuid=3E07F30046A562E0A718BDBFCF7CEBFA
+      Material=Material'"M_Charmats"'
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_2"
+      A=(Expression=MaterialExpressionAdd'"M_Charmats:MaterialExpressionAdd_0"')
+      ConstB=0.010000
+      MaterialExpressionEditorX=64
+      MaterialExpressionEditorY=96
+      MaterialExpressionGuid=0B4D3E9240863E124EAB6381DFF7E259
+      Material=Material'"M_Charmats"'
+   End Object
+   EmissiveColor=(Expression=MaterialExpressionMultiply'"MaterialExpressionMultiply_2"')
+   bUsedWithStaticLighting=True
+   EditorX=336
+   Expressions(0)=MaterialExpressionConstant3Vector'"MaterialExpressionConstant3Vector_0"'
+   Expressions(1)=MaterialExpressionConstant3Vector'"MaterialExpressionConstant3Vector_1"'
+   Expressions(2)=MaterialExpressionVertexColor'"MaterialExpressionVertexColor_0"'
+   Expressions(3)=MaterialExpressionMultiply'"MaterialExpressionMultiply_0"'
+   Expressions(4)=MaterialExpressionMultiply'"MaterialExpressionMultiply_1"'
+   Expressions(5)=MaterialExpressionAdd'"MaterialExpressionAdd_0"'
+   Expressions(6)=MaterialExpressionMultiply'"MaterialExpressionMultiply_2"'
+   bCanMaskedBeAssumedOpaque=True
+   StateId=A29DC90C4156E3296C02EB9C98818251
+   PreviewMesh=/Game/SmokeParticle/StaticMeshes/Various/SM_PlayerNEnemies.SM_PlayerNEnemies
+   ThumbnailInfo=SceneThumbnailInfoWithPrimitive'"SceneThumbnailInfoWithPrimitive_0"'
+   LightingGuid=CB1150F54B5B6B14C7AA559D8AEDB1E6
+End Object

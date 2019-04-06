@@ -32,26 +32,35 @@ public:
 	// Sets the floors target destination
 	void SetGoalPosition(FVector newPosition);
 
+	// Called to start or stop a floor shake
+	void BeginShake();
+	void EndShake();
+
 private:
 	// Sets floors direction to move off or on screen
 	void SetFloorMovement();
 
+	// Use to move floor
+	void MoveOutOfPlay(float DeltaTime);
+	void MoveIntoPlay(float DeltaTime);
 	void Shake(float DeltaTime);
 
 private:
 	// Floors x and y movement;
 	float XMovement;
 	float YMovement;
+	float ShakeAmount;
 
 	bool MoveOnScreen;
+	bool Selected;
 
 	// Floors target destination
 	FVector Destination;
+	FVector CurrentPosition;
 
 public:
 	bool MoveOffScreen;
-	bool Selected;
-
+	
 	// Checks direction to move in
 	bool MoveRight;
 	bool MoveLeft;

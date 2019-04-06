@@ -63,7 +63,7 @@ void AFloorManager::BeginMoveFloor()
 	GetWorld()->GetTimerManager().ClearTimer(GetFloorTimer);
 	RandFloorToMove = FMath::RandRange(0, 7);
 
-	ArrayOfFloors[RandFloorToMove]->Selected = true;
+	ArrayOfFloors[RandFloorToMove]->BeginShake();
 
 	if (SmokeEffect)
 	{
@@ -84,7 +84,7 @@ void AFloorManager::MoveFloor()
 	int32 RandFloorToPlay = FMath::RandRange(8, NumberOfFloors - 1);
 
 	// Get the location of the floor on screen and tell it to move off screen
-	ArrayOfFloors[RandFloorToMove]->Selected = false;
+	ArrayOfFloors[RandFloorToMove]->EndShake();
 	FVector Location = ArrayOfFloors[RandFloorToMove]->GetActorLocation();
 	ArrayOfFloors[RandFloorToMove]->MoveOffScreen = true;
 
