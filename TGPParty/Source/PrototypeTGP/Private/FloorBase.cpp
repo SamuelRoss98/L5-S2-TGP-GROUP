@@ -139,7 +139,7 @@ void AFloorBase::MoveOutOfPlay(float DeltaTime)
 		Position.X >= 4000.0f || Position.X <= -4000.0f)
 	{
 		MoveOffScreen = false;
-		SetActorLocation(FVector(1500.f, 1500.f, -1500.f));
+		SetActorLocation(FVector(2500.f, 2500.f, -2500.f));
 	}
 }
 

@@ -39,16 +39,15 @@ void AFloorManager::BeginPlay()
 	{
 		for (int i = 8; i < NumberOfFloors; i++)
 		{
-			ArrayOfFloors[i]->SetActorLocation(FVector(-1500.f, -1500.f, -1500.f));
+			ArrayOfFloors[i]->SetActorLocation(FVector(2500.f, 2500.f, -2500.f));
 		}
+
+		GetWorld()->GetTimerManager().SetTimer(MoveFloorTimer, this, &AFloorManager::BeginMoveFloor, 8.f, false);
 	}
 	else
 	{
 		UE_LOG(LogTemp, Error, TEXT("There are not enough floors in the level"));
 	}
-
-
-	GetWorld()->GetTimerManager().SetTimer(MoveFloorTimer, this, &AFloorManager::BeginMoveFloor, 8.f, false);
 }
 
 // Called every frame
@@ -79,6 +78,7 @@ void AFloorManager::MoveFloor()
 {
 	// Clear timer
 	GetWorld()->GetTimerManager().ClearTimer(MoveFloorTimer);
+
 
 	// Get a random floor currently off screen to move on screen
 	int32 RandFloorToPlay = FMath::RandRange(8, NumberOfFloors - 1);
