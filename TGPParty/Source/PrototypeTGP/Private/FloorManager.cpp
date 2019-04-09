@@ -88,9 +88,10 @@ void AFloorManager::MoveFloor()
 	FVector Location = ArrayOfFloors[RandFloorToMove]->GetActorLocation();
 	ArrayOfFloors[RandFloorToMove]->MoveOffScreen = true;
 
-	// Tell floor to move on screen and set it too a position where it can easily move into frame
+	// Call floor move and set it too a position with a rotation where it can easily move into frame
 	ArrayOfFloors[RandFloorToPlay]->SetFloorPosition(FVector((Location.X * 3), (Location.Y * 3), -400.0f));
 	ArrayOfFloors[RandFloorToPlay]->SetGoalPosition(Location);
+	ArrayOfFloors[RandFloorToPlay]->SetRandomRotation(FMath::RandRange(0, 3));
 
 	// Swap the 2 floors position in the array
 	ArrayOfFloors.Swap(RandFloorToMove, RandFloorToPlay);

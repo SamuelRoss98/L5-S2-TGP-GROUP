@@ -251,3 +251,9 @@ void AFloorBase::EndShake()
 	Selected = false;
 	SetActorLocation(CurrentPosition);
 }
+
+void AFloorBase::SetRandomRotation(int32 random)
+{
+	FRotator NewRotation = FRotator(0.f, random * 90.f, 0.f);
+	SetActorRotation(NewRotation);
+}

@@ -36,6 +36,9 @@ public:
 	void BeginShake();
 	void EndShake();
 
+	// Use random to multiple by 90 to get a new Z/Yaw rotation.
+	void SetRandomRotation(int32 random); 
+
 private:
 	// Sets floors direction to move off or on screen
 	void SetFloorMovement();
