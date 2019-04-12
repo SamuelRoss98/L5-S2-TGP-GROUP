@@ -7,6 +7,8 @@
 #include "Engine/World.h"
 #include "Engine/GameEngine.h"
 #include "TimerManager.h"
+#include "Particles/ParticleSystemComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AFloorManager::AFloorManager()
@@ -16,7 +18,6 @@ AFloorManager::AFloorManager()
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	RootComponent = Mesh;
-
 }
 
 // Called when the game starts or when spawned
@@ -24,47 +25,77 @@ void AFloorManager::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	// Getting all floors in the scene and adding them to an array
 	for (TActorIterator<AFloorBase> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
 		AFloorBase* NextFloor = *ActorItr;
 		ArrayOfFloors.Add(NextFloor);
 	}
 
-	for (int i = 8; i < ArrayOfFloors.Num(); i++)
-	{
-		ArrayOfFloors[i]->SetActorLocation(FVector(-1500.f, -1500.f, -1500.f));
-	}
+	NumberOfFloors = ArrayOfFloors.Num();
 
-	GetWorld()->GetTimerManager().SetTimer(GetFloorTimer, this, &AFloorManager::BeginMoveFloor, 8.f, false);
+	// Getting all floors that are not in play and moving them of screen.
+	if (NumberOfFloors > 7)
+	{
+		for (int i = 8; i < NumberOfFloors; i++)
+		{
+			ArrayOfFloors[i]->SetActorLocation(FVector(2500.f, 2500.f, -2500.f));
+		}
+
+		GetWorld()->GetTimerManager().SetTimer(MoveFloorTimer, this, &AFloorManager::BeginMoveFloor, 8.f, false);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("There are not enough floors in the level"));
+	}
 }
 
 // Called every frame
 void AFloorManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void AFloorManager::BeginMoveFloor()
 {
+	// Clear timer and get a random floor on screen to move off screen.
 	GetWorld()->GetTimerManager().ClearTimer(GetFloorTimer);
 	RandFloorToMove = FMath::RandRange(0, 7);
 
-	//insert particle effect to play here
+	ArrayOfFloors[RandFloorToMove]->BeginShake();
+
+	if (SmokeEffect)
+	{
+		// Spawn a smoke effect at the centre of the floor thats going to move
+		UParticleSystemComponent* SmokeComp = UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), SmokeEffect, ArrayOfFloors[RandFloorToMove]->GetActorLocation());
+	}
 	
+	// Start timer to move floor
 	GetWorld()->GetTimerManager().SetTimer(MoveFloorTimer, this, &AFloorManager::MoveFloor, 2.f, false);
 }
 
 void AFloorManager::MoveFloor()
 {
+	// Clear timer
 	GetWorld()->GetTimerManager().ClearTimer(MoveFloorTimer);
-	int32 RandFloorToPlay = FMath::RandRange(8, ArrayOfFloors.Num() - 1);
-	FVector Location = ArrayOfFloors[RandFloorToMove]->GetActorLocation();
 
+
+	// Get a random floor currently off screen to move on screen
+	int32 RandFloorToPlay = FMath::RandRange(8, NumberOfFloors - 1);
+
+	// Get the location of the floor on screen and tell it to move off screen
+	ArrayOfFloors[RandFloorToMove]->EndShake();
+	FVector Location = ArrayOfFloors[RandFloorToMove]->GetActorLocation();
 	ArrayOfFloors[RandFloorToMove]->MoveOffScreen = true;
-	ArrayOfFloors[RandFloorToPlay]->SetFloorPosition(FVector((Location.X * 3), (Location.Y * 3), 210.0f));
+
+	// Call floor move and set it too a position with a rotation where it can easily move into frame
+	ArrayOfFloors[RandFloorToPlay]->SetFloorPosition(FVector((Location.X * 3), (Location.Y * 3), -400.0f));
 	ArrayOfFloors[RandFloorToPlay]->SetGoalPosition(Location);
+	ArrayOfFloors[RandFloorToPlay]->SetRandomRotation(FMath::RandRange(0, 3));
+
+	// Swap the 2 floors position in the array
 	ArrayOfFloors.Swap(RandFloorToMove, RandFloorToPlay);
 
+	// Start the timer to the change a new floor again
 	GetWorld()->GetTimerManager().SetTimer(GetFloorTimer, this, &AFloorManager::BeginMoveFloor, 8.f, false);
 }
