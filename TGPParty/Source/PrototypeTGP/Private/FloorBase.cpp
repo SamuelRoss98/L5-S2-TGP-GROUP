@@ -2,6 +2,7 @@
 
 #include "FloorBase.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/BoxComponent.h"
 #include "Engine/World.h"
 #include "Engine/GameEngine.h"
 
@@ -14,11 +15,17 @@ AFloorBase::AFloorBase()
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	RootComponent = Mesh;
+
+	BoxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComp"));
+	BoxComp->AttachTo(RootComponent);
 }
 
 // Called when the game starts or when spawned
 void AFloorBase::BeginPlay()
 {
+	BoxComp->SetRelativeScale3D(FVector(1.55, 1.55, 0.1));
+	BoxComp->SetRelativeLocation(FVector(0, 0, -3.30));
+	BoxComp->bHiddenInGame = false;
 	Super::BeginPlay();
 	SetFloorMovement();
 
