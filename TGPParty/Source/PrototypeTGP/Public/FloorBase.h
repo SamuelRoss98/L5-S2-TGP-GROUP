@@ -15,6 +15,9 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* Mesh;
 
+	UPROPERTY(VisibleAnywhere)
+	class UBoxComponent* BoxComp;
+
 	// Sets default values for this actor's properties
 	AFloorBase();
 

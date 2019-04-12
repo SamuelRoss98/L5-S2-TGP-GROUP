@@ -3,6 +3,7 @@
 #include "FloorManager.h"
 #include "FloorBase.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/BoxComponent.h"
 #include "EngineUtils.h"
 #include "Engine/World.h"
 #include "Engine/GameEngine.h"
@@ -18,11 +19,17 @@ AFloorManager::AFloorManager()
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	RootComponent = Mesh;
+
+	BoxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComp"));
+	BoxComp->AttachTo(RootComponent);
+	BoxComp->SetRelativeScale3D(FVector(1.55, 1.55, 0.1));
 }
 
 // Called when the game starts or when spawned
 void AFloorManager::BeginPlay()
 {
+	BoxComp->SetRelativeLocation(FVector(0, 0, -3.3));
+	BoxComp->bHiddenInGame = false;
 	Super::BeginPlay();
 	
 	// Getting all floors in the scene and adding them to an array
