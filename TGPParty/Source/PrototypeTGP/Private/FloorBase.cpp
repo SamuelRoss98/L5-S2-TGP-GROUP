@@ -2,6 +2,7 @@
 
 #include "FloorBase.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/BoxComponent.h"
 #include "Engine/World.h"
 #include "Engine/GameEngine.h"
 
@@ -14,118 +15,53 @@ AFloorBase::AFloorBase()
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	RootComponent = Mesh;
+
+	BoxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComp"));
+	BoxComp->AttachTo(RootComponent);
 }
 
 // Called when the game starts or when spawned
 void AFloorBase::BeginPlay()
 {
+	BoxComp->SetRelativeScale3D(FVector(1.55, 1.55, 0.1));
+	BoxComp->SetRelativeLocation(FVector(0, 0, -3.30));
+	BoxComp->bHiddenInGame = false;
 	Super::BeginPlay();
 	SetFloorMovement();
 
 	MoveOffScreen = false;
 	MoveOnScreen = false;
+	Selected = false;
+	ShakeAmount = 100.f;
 }
 
 // Called every frame
 void AFloorBase::Tick(float DeltaTime)
 {
-	//Super::Tick(DeltaTime);
-
+	// If the floor has been chosen to be changed, then move off screen.
 	if (MoveOffScreen)
 	{
-		FVector Position = GetActorLocation();
-
-		Position.Y += YMovement * DeltaTime * 1.2;
-		Position.X += XMovement * DeltaTime * 1.2;
-		Position.Z -= 300.f * DeltaTime;
-
-		SetActorLocation(Position);
-
-		if (Position.Y >= 2500.0f || Position.Y <= -2500.0f || 
-			Position.X >= 2500.0f || Position.X <= -2500.0f)
-		{
-			MoveOffScreen = false;
-			SetActorLocation(FVector(1500.f, 1500.f, -1500.f));
-		}
+		MoveOutOfPlay(DeltaTime);
 	}
 
+	// If the floor has been chosen to be changed, then move on screen.
 	if (MoveOnScreen)
 	{
-		FVector Position = GetActorLocation();
+		MoveIntoPlay(DeltaTime);
+	}
 
-		if (MoveUp)
-		{
-			if (Position.X < Destination.X)
-			{
-				Position.X -= XMovement * DeltaTime;
-			}
-			else
-			{
-				MoveUp = false;
-				Position.X = Destination.X;
-			}
-		}
-
-		if (MoveDown)
-		{
-			if (Position.X > Destination.X)
-			{
-				Position.X -= XMovement * DeltaTime;
-			}
-			else
-			{
-				MoveDown = false;
-				Position.X = Destination.X;
-			}
-		}
-
-		if (MoveLeft)
-		{
-			if (Position.Y > Destination.Y)
-			{
-				Position.Y -= YMovement * DeltaTime;
-			}
-			else
-			{
-				MoveLeft = false;
-				Position.Y = Destination.Y;
-			}
-		}
-
-		if (MoveRight)
-		{
-			if (Position.Y < Destination.Y)
-			{
-				Position.Y -= YMovement * DeltaTime;
-			}
-			else
-			{
-				MoveRight = false;
-				Position.Y = Destination.Y;
-			}
-		}
-
-		if (Position.Z > 0.f)
-		{
-			Position.Z -= 100.f * DeltaTime;
-		}
-		else if (Position.Z < -12.f)
-		{
-			Position.Z = 0.f;
-		}
-
-		SetActorLocation(Position);
-
-		if (Position.Y += Destination.Y && Position.X != Destination.X)
-		{
-			MoveOnScreen = true;
-		}		
+	// Shakes the floor if its about to move away.
+	if(Selected)
+	{
+		Shake(DeltaTime);
 	}
 }
 
 void AFloorBase::SetFloorPosition(FVector newPosition)
 {
 	SetActorLocation(newPosition);
+
+	// Set the floors movement based on its new position.
 	SetFloorMovement();
 }
 
@@ -193,4 +129,138 @@ void AFloorBase::SetFloorMovement()
 	{
 		YMovement = 0.f;
 	}
+}
+
+void AFloorBase::MoveOutOfPlay(float DeltaTime)
+{
+	FVector Position = GetActorLocation();
+
+	Position.Y += YMovement * DeltaTime; // *1.2;
+	Position.X += XMovement * DeltaTime; // *1.2;
+	Position.Z += 100.f * DeltaTime;
+
+	SetActorLocation(Position);
+
+	// Check to see if floor is far enough of screen to hide.
+	if (Position.Y >= 4000.0f || Position.Y <= -4000.0f ||
+		Position.X >= 4000.0f || Position.X <= -4000.0f)
+	{
+		MoveOffScreen = false;
+		SetActorLocation(FVector(2500.f, 2500.f, -2500.f));
+	}
+}
+
+void AFloorBase::MoveIntoPlay(float DeltaTime)
+{
+	FVector Position = GetActorLocation();
+
+	if (MoveUp)
+	{
+		if (Position.X < Destination.X)
+		{
+			Position.X -= XMovement * DeltaTime;
+		}
+		else
+		{
+			MoveUp = false;
+			Position.X = Destination.X;
+		}
+	}
+
+	if (MoveDown)
+	{
+		if (Position.X > Destination.X)
+		{
+			Position.X -= XMovement * DeltaTime;
+		}
+		else
+		{
+			MoveDown = false;
+			Position.X = Destination.X;
+		}
+	}
+
+	if (MoveLeft)
+	{
+		if (Position.Y > Destination.Y)
+		{
+			Position.Y -= YMovement * DeltaTime;
+		}
+		else
+		{
+			MoveLeft = false;
+			Position.Y = Destination.Y;
+		}
+	}
+
+	if (MoveRight)
+	{
+		if (Position.Y < Destination.Y)
+		{
+			Position.Y -= YMovement * DeltaTime;
+		}
+		else
+		{
+			MoveRight = false;
+			Position.Y = Destination.Y;
+		}
+	}
+
+	if (Position.Z < 0.f)
+	{
+		Position.Z += 200.f * DeltaTime;
+	}
+	else if (Position.Z > 0)
+	{
+		Position.Z = 0.f;
+	}
+
+	SetActorLocation(Position);
+
+	// If floor is in position then stop it.
+	if (Position.Y == Destination.Y && Position.X == Destination.X && Position.Z == 0.f)
+	{
+		MoveOnScreen = false;
+	}
+}
+
+void AFloorBase::BeginShake()
+{
+	Selected = true;
+	CurrentPosition = GetActorLocation();
+}
+
+void AFloorBase::Shake(float DeltaTime)
+{
+	FVector Position = GetActorLocation();
+
+	Position.X += ShakeAmount * DeltaTime;
+	Position.Y += ShakeAmount * DeltaTime;
+
+	if (Position.X > (CurrentPosition.X + (ShakeAmount / 10.f)) && Position.Y > (CurrentPosition.Y + (ShakeAmount / 10.f)))
+	{
+		ShakeAmount *= -1.f;
+		SetActorLocation(CurrentPosition);
+	}
+	else if (Position.X < (CurrentPosition.X - (ShakeAmount / 10.f)) && Position.Y < (CurrentPosition.Y - (ShakeAmount / 10.f)))
+	{
+		ShakeAmount *= -1.f;
+		SetActorLocation(CurrentPosition);
+	}
+	else
+	{
+		SetActorLocation(Position);
+	}
+}
+
+void AFloorBase::EndShake()
+{
+	Selected = false;
+	SetActorLocation(CurrentPosition);
+}
+
+void AFloorBase::SetRandomRotation(int32 random)
+{
+	FRotator NewRotation = FRotator(0.f, random * 90.f, 0.f);
+	SetActorRotation(NewRotation);
 }

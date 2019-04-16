@@ -15,8 +15,14 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* Mesh;
 
+	UPROPERTY(VisibleAnywhere)
+	class UBoxComponent* BoxComp;
+
 	// Sets default values for this actor's properties
 	AFloorManager();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Effects)
+	class UParticleSystem* SmokeEffect;
 
 protected:
 	// Called when the game starts or when spawned
@@ -34,4 +40,5 @@ private:
 	FTimerHandle MoveFloorTimer;
 	TArray<class AFloorBase*> ArrayOfFloors;	
 	int32 RandFloorToMove;
+	int32 NumberOfFloors;
 };
